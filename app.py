@@ -44,9 +44,30 @@ async def set():
     await room.setAll(pb)
     return f'Bulbs set to {pb.pilot_params["temp"]}k and {pb.pilot_params["dimming"]} brightness {brightness}'
 
+@app.route("/increment", methods=["POST"])
+async def increment():
+    current_brightness = await room.getBrightness()
+    new_brightness = min(255, current_brightness + 10)
+    
+    pb = PilotBuilder(colortemp=temp, brightness=new_brightness)
+    
+    await room.setAll(pb)
+    return f'Brightness incremented to {new_brightness}'
+
+@app.route("/decrement", methods=["POST"])
+async def decrement():
+    current_brightness = await room.getBrightness()
+    new_brightness = max(0, current_brightness - 10)
+    
+    pb = PilotBuilder(colortemp=temp, brightness=new_brightness)
+    
+    await room.setAll(pb)
+    return f'Brightness decremented to {new_brightness}'
+
 
 if __name__ == '__main__':
-    port = os.environ.get("PORT", 5000)
+    port = os.environ.get("PORT", "5000")
+    port = int(port)
     app.run(host='0.0.0.0', port=port)
 
 

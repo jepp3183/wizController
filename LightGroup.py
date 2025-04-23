@@ -37,3 +37,10 @@ class LightGroup:
         for light in self.lights:
             await asyncio.wait_for(light.lightSwitch(), timeout=5)
 
+    async def getBrightness(self) -> int:
+        b = 0
+        for light in self.lights:
+            state = await light.updateState()
+            b = max(b, state.brightness)
+        return b
+
