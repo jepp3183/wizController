@@ -46,6 +46,7 @@ async def set():
 
 @app.route("/increment", methods=["POST"])
 async def increment():
+    temp = request.args.get("temp", default=2700, type=int)
     current_brightness = await room.getBrightness()
     new_brightness = min(255, current_brightness + 10)
     
@@ -56,6 +57,7 @@ async def increment():
 
 @app.route("/decrement", methods=["POST"])
 async def decrement():
+    temp = request.args.get("temp", default=2700, type=int)
     current_brightness = await room.getBrightness()
     new_brightness = max(0, current_brightness - 10)
     

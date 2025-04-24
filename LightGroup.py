@@ -41,6 +41,6 @@ class LightGroup:
         b = 0
         for light in self.lights:
             state = await light.updateState()
-            b = max(b, state.brightness)
+            b = max(b, state.get_brightness())
         return b
 
