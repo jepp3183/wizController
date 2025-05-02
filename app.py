@@ -46,9 +46,10 @@ async def set():
 
 @app.route("/increment", methods=["POST"])
 async def increment():
+    step = request.args.get("step", default=10, type=int)
     temp = request.args.get("temp", default=2700, type=int)
     current_brightness = await room.getBrightness()
-    new_brightness = min(255, current_brightness + 10)
+    new_brightness = min(255, current_brightness + step)
     
     pb = PilotBuilder(colortemp=temp, brightness=new_brightness)
     
@@ -57,9 +58,10 @@ async def increment():
 
 @app.route("/decrement", methods=["POST"])
 async def decrement():
+    step = request.args.get("step", default=10, type=int)
     temp = request.args.get("temp", default=2700, type=int)
     current_brightness = await room.getBrightness()
-    new_brightness = max(0, current_brightness - 10)
+    new_brightness = max(0, current_brightness - step)
     
     pb = PilotBuilder(colortemp=temp, brightness=new_brightness)
     
